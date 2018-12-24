@@ -56,20 +56,7 @@ public class WelcomeScreen extends AppCompatActivity implements View.OnClickList
         viewPager.addOnPageChangeListener(viewListener);
     }
 
-    public void addDots(int pos){
-        mDots= new TextView[3];
-        for(int i=0;i<mDots.length;i++){
-            mDots[i]= new TextView(this);
-            mDots[i].setText(Html.fromHtml("&#8226;"));
-            mDots[i].setTextSize(35);
-            mDots[i].setTextColor(getResources().getColor(R.color.inactive_dot));
-
-            dotLayout.addView(mDots[i]);
-        }
-        if(mDots.length > 0){
-            mDots[pos].setTextColor(getResources().getColor(R.color.active_dot));
-        }
-    }
+   
     public void createDots(int cPos)
     {
         if(dotLayout!=null){

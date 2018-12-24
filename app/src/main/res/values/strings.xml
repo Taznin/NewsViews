@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NewsViews</string>
+    <string name="myPreference">com.taznin.myPref</string>
+    <string name="myPreferenceKey">com.taznin.myPrefKey</string>
+</resources>

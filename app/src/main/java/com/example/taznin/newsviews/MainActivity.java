@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //Toast.makeText(this,"Exit",Toast.LENGTH_LONG).show();
                 break;
             case R.id.mItem_login:
-                Toast.makeText(this,"Login",Toast.LENGTH_LONG).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmrnt_container,new LoginFragment()).commit();
                 break;
         }
         mDrawer.closeDrawer(GravityCompat.START);

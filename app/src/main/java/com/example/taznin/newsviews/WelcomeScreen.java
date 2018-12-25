@@ -21,7 +21,6 @@ public class WelcomeScreen extends AppCompatActivity {
     private LinearLayout dotLayout;
     private slideAdapter slideAdapter;
     private TextView[] mDots;
-    private ImageView[] dots;
     private Button btnNext,btnPrev;
     int cPage;
     @Override

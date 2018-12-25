@@ -7,4 +7,6 @@
     <color name="active_dot">#ffffff</color>
     <color name="menu_item">#141f1f</color>
     <color name="menu_back">#e0ebeb</color>
+    <color name="trasparentWhite">#cccccc</color>
+    <color name="White">#FFFFFF</color>
 </resources>

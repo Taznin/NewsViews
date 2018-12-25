@@ -17,9 +17,7 @@ public class slideAdapter extends PagerAdapter {
         this.context = context;
     }
 
-    public  String[] slideText={
-            "Hi","",""
-    };
+
     public  String[] slideHeading={
             "Im Taznin Jahan", "NewsViews","Welcome"
     };
@@ -41,9 +39,9 @@ public class slideAdapter extends PagerAdapter {
 
 
         TextView txtV= (TextView) view.findViewById(R.id.txt_slideText);
-        TextView txtView= (TextView) view.findViewById(R.id.txtHead);
 
-        txtView.setText(slideText[position]);
+
+
         txtV.setText(slideHeading[position]);
 
         container.addView(view);

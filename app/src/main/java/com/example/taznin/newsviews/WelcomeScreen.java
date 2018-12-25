@@ -15,14 +15,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class WelcomeScreen extends AppCompatActivity implements View.OnClickListener {
+public class WelcomeScreen extends AppCompatActivity {
 
     private ViewPager viewPager;
     private LinearLayout dotLayout;
     private slideAdapter slideAdapter;
     private TextView[] mDots;
     private ImageView[] dots;
-    private Button btnNext;
+    private Button btnNext,btnPrev;
+    int cPage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,10 +39,28 @@ public class WelcomeScreen extends AppCompatActivity implements View.OnClickList
         dotLayout =(LinearLayout) findViewById(R.id.layout_dots);
 
 
+        btnPrev=(Button) findViewById(R.id.btn_slidePrev);
         btnNext=(Button) findViewById(R.id.btn_slideNext);
-        btnNext.setVisibility(View.INVISIBLE);
 
-        btnNext.setOnClickListener(this);
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cPage==2){
+                    loadHome();
+                    new PreferenceManager(getApplicationContext()).writePref();
+                }else{
+                    viewPager.setCurrentItem(cPage+1);
+                }
+
+
+            }
+        });
+        btnPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager.setCurrentItem(cPage-1);
+            }
+        });
 
         if(Build.VERSION.SDK_INT>=19){
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -51,7 +70,7 @@ public class WelcomeScreen extends AppCompatActivity implements View.OnClickList
 
         slideAdapter= new slideAdapter(this);
         viewPager.setAdapter(slideAdapter);
-        //addDots(0);
+
         createDots(0);
         viewPager.addOnPageChangeListener(viewListener);
     }
@@ -62,18 +81,17 @@ public class WelcomeScreen extends AppCompatActivity implements View.OnClickList
         if(dotLayout!=null){
             dotLayout.removeAllViews();
         }
-        dots=new ImageView[3] ;
-        for(int i=0;i<dots.length;i++){
-            dots[i]= new ImageView(this);
-            if(i==cPos){
-                dots[i].setImageDrawable(ContextCompat.getDrawable(this,R.drawable.dot_slide));
-            }
-            else{
-                dots[i].setImageDrawable(ContextCompat.getDrawable(this,R.drawable.dot_slide));
-            }
-            LinearLayout.LayoutParams params= new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(4,0,4,0);
-            dotLayout.addView(dots[i],params);
+        mDots=new TextView[3] ;
+        for(int i=0;i<mDots.length;i++){
+            mDots[i]= new TextView(this);
+            mDots[i].setText(Html.fromHtml("&#8226"));
+            mDots[i].setTextSize(35);
+            mDots[i].setTextColor(getResources().getColor(R.color.trasparentWhite));
+
+            dotLayout.addView(mDots[i]);
+        }
+        if(mDots.length>0){
+            mDots[cPos].setTextColor(getResources().getColor(R.color.White));
         }
     }
     ViewPager.OnPageChangeListener viewListener= new ViewPager.OnPageChangeListener() {
@@ -84,15 +102,29 @@ public class WelcomeScreen extends AppCompatActivity implements View.OnClickList
 
         @Override
         public void onPageSelected(int i) {
-            // addDots(i);
+            createDots(i);
+            cPage=i;
+            if(i==0){
+                btnNext.setEnabled(true);
+                btnPrev.setEnabled(false);
+                btnPrev.setVisibility(View.VISIBLE);
 
-            if(i==2){
-                btnNext.setText("START");
-                btnNext.setVisibility(View.VISIBLE);
+                btnNext.setText("Next");
+                btnPrev.setText("");
+            }else if(i==mDots.length-1){
+                btnNext.setEnabled(true);
+                btnPrev.setEnabled(true);
+                btnPrev.setVisibility(View.INVISIBLE);
 
+                btnNext.setText("Start");
+                btnPrev.setText("Back");
             }else{
-                btnNext.setText("NEXT");
-                btnNext.setVisibility(View.INVISIBLE);
+                btnNext.setEnabled(true);
+                btnPrev.setEnabled(true);
+                btnPrev.setVisibility(View.VISIBLE);
+
+                btnNext.setText("Next");
+                btnPrev.setText("Back");
             }
         }
 
@@ -102,23 +134,11 @@ public class WelcomeScreen extends AppCompatActivity implements View.OnClickList
         }
     };
 
-    @Override
-    public void onClick(View v) {
-        loadHome();
-        new PreferenceManager(this).writePref();
-    }
+
 
     private void loadHome(){
         startActivity(new Intent(this,MainActivity.class));
         finish();
     }
-    private void loadNextSlide(){
-        int nextSlide= viewPager.getCurrentItem();
-        if(nextSlide<3){
-            viewPager.setCurrentItem(nextSlide);
-        }else{
-            loadHome();
-            new PreferenceManager(this).writePref();
-        }
-    }
+
 }

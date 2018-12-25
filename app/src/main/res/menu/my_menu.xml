@@ -20,7 +20,7 @@
             <item
                 android:id="@+id/mItem_login"
                 android:icon="@drawable/ic_account"
-                android:title="Home" />
+                android:title="Login" />
         </menu>
     </item>
 </menu>

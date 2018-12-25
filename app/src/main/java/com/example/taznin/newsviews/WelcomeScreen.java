@@ -56,7 +56,7 @@ public class WelcomeScreen extends AppCompatActivity implements View.OnClickList
         viewPager.addOnPageChangeListener(viewListener);
     }
 
-   
+
     public void createDots(int cPos)
     {
         if(dotLayout!=null){

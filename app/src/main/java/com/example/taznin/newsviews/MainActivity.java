@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this,"Home",Toast.LENGTH_LONG).show();
                 break;
             case R.id.mItem_about:
-                Toast.makeText(this,"About",Toast.LENGTH_LONG).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmrnt_container,new  AboutFragment()).commit();
+                //Toast.makeText(this,"About",Toast.LENGTH_LONG).show();
                 break;
             case R.id.mItem_exit:
                 exitApp();

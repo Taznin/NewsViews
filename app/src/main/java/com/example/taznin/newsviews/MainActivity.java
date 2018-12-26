@@ -10,18 +10,31 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawer;
     private NavigationView navigationView;
     private ActionBarDrawerToggle mToogle;
-    public  static  boolean FLAG_USER=false;
+    private OkHttpClient okHttpClient;
+    private Request request;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +95,72 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setNegativeButton("No", null)
                 .show();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_menu,menu);
+        MenuItem item= menu.findItem(R.id.searchOption);
+        android.support.v7.widget.SearchView searchView= (android.support.v7.widget.SearchView) item.getActionView();
+        searchView.setQueryHint("Number or dd/mm");
+        searchView.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_DATETIME_VARIATION_DATE);
+        searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                String url="";
+                if(s.contains("/")){
+                    url= "http://numbersapi.com/"+s+"/date";
+                }else{
+                    url= "http://numbersapi.com/"+s;
+                }
+
+              getResult(url);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+    void getResult(String s){
+        okHttpClient= new OkHttpClient();
+        request=new Request.Builder()
+                .url(s)
+                .build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if(response.isSuccessful()){
+                    final String res= response.body().string();
+
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // txtNUm.setText(res);
+                            showData(res);
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+    void showData(String result){
+        Bundle bundle = new Bundle();
+        bundle.putString("NUMBER_KEY", result);
+
+        NumberFragment myFragment = new NumberFragment();
+        myFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmrnt_container,myFragment).commit();
+    }
+
 
     @Override
     public void onBackPressed() {

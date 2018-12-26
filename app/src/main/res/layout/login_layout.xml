@@ -8,16 +8,41 @@
         android:id="@+id/btnSignIn">
     </com.google.android.gms.common.SignInButton>
 
-    <Button
-        android:id="@+id/btnSignout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="136dp"
-        android:layout_marginRight="136dp"
-        android:layout_marginBottom="11dp"
-        android:text="SignOut"
-        android:visibility="invisible" />
+
+
+
+    <LinearLayout
+        android:id="@+id/lay_sersection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:text="Username"/>
+        <TextView
+            android:id="@+id/txt_userMail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:gravity="center"
+            android:text="Email"/>
+
+        <Button
+            android:id="@+id/btnSignout"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="SignOut"
+            />
+    </LinearLayout>
 </RelativeLayout>

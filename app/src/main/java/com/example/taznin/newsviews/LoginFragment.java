@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -37,6 +39,8 @@ public class LoginFragment extends Fragment {
     private Button signOut;
     public static final int RC_SIGN_IN = 1;
     GoogleSignInClient mGoogleSignInClient;
+    private TextView username;
+    private TextView useremail;
     public static final String TAG = "MainActivity";
     private FirebaseAuth mAuth;
 
@@ -48,6 +52,8 @@ public class LoginFragment extends Fragment {
         signIn = (SignInButton)view.findViewById(R.id.btnSignIn);
         signOut = (Button) view.findViewById(R.id.btnSignout);
         mAuth = FirebaseAuth.getInstance();
+        username=(TextView)view.findViewById(R.id.txt_username) ;
+        useremail=(TextView)view.findViewById(R.id.txt_userMail) ;
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -71,6 +77,10 @@ public class LoginFragment extends Fragment {
             public void onClick(View view) {
                 mAuth.signOut(); //get signed out
                 signOut.setVisibility(View.GONE);
+                signIn.setVisibility(View.VISIBLE);
+
+                username.setVisibility(View.GONE);
+                useremail.setVisibility(View.GONE);
             }
         });
         return view;
@@ -130,7 +140,7 @@ public class LoginFragment extends Fragment {
     public  void updateUI(FirebaseUser user){
       //  signOut.setVisibility(View.VISIBLE);
 
-        signOut.setVisibility(View.VISIBLE);
+
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
         if (acct != null) {
@@ -141,6 +151,12 @@ public class LoginFragment extends Fragment {
             String personId = acct.getId();
             Uri personPhoto = acct.getPhotoUrl();
 
+            signIn.setVisibility(View.INVISIBLE);
+            username.setText(personName);
+            useremail.setText(personEmail);
+            username.setVisibility(View.VISIBLE);
+            useremail.setVisibility(View.VISIBLE);
+            signOut.setVisibility(View.VISIBLE);
             Toast.makeText(getActivity(), "Name of the user :" + personName + " user id is : " + personId, Toast.LENGTH_SHORT).show();
 
         }

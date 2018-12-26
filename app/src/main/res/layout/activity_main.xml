@@ -18,6 +18,7 @@
         android:background="@color/active_dot"
         app:itemTextColor="@color/menu_item"
         app:menu="@menu/my_menu"
+
         app:itemIconTint="@color/menu_item"
         android:layout_gravity="start"
 

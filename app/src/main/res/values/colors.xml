@@ -4,9 +4,9 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="inactive_dot">#cccccc</color>
-    <color name="active_dot">#ffffff</color>
+    <color name="active_dot">#f5f4f4</color>
     <color name="menu_item">#141f1f</color>
     <color name="menu_back">#e0ebeb</color>
     <color name="trasparentWhite">#cccccc</color>
-    <color name="White">#FFFFFF</color>
+    <color name="White">#ffffff</color>
 </resources>

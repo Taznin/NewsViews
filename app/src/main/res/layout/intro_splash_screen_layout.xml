@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/welcome"
+    >
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/layout_slideView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/layout_dots"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"></LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:alpha=".5"
+        android:layout_above="@id/layout_dots"
+        android:background="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_slideNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:background="@null"
+        android:text="Next"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/btn_slidePrev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:background="@null"
+        android:text="Back"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>

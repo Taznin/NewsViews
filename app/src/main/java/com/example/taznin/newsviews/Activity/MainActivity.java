@@ -1,7 +1,7 @@
-package com.example.taznin.newsviews;
+package com.example.taznin.newsviews.Activity;
 
 import android.content.DialogInterface;
-import android.net.Uri;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,11 +13,14 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.taznin.newsviews.Fragments.AboutFragment;
+import com.example.taznin.newsviews.Fragments.HomeFragment;
+import com.example.taznin.newsviews.Fragments.LoginFragment;
+import com.example.taznin.newsviews.Fragments.NumberFragment;
+import com.example.taznin.newsviews.Manager.InternetConnectivityCheck;
+import com.example.taznin.newsviews.R;
 
 import java.io.IOException;
 
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle mToogle;
     private OkHttpClient okHttpClient;
     private Request request;
+    private static final String number_BASE_URL="http://numbersapi.com/";
 
 
     @Override
@@ -62,10 +66,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.mItem_home:
-                Toast.makeText(this,"Home",Toast.LENGTH_LONG).show();
+               // getSupportFragmentManager().beginTransaction().replace(R.id.fragmrnt_container,new ListFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmrnt_container,new HomeFragment()).commit();
+                //Toast.makeText(this,"Home",Toast.LENGTH_LONG).show();
                 break;
             case R.id.mItem_about:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmrnt_container,new  AboutFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmrnt_container,new AboutFragment()).commit();
                 //Toast.makeText(this,"About",Toast.LENGTH_LONG).show();
                 break;
             case R.id.mItem_exit:
@@ -106,14 +112,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                String url="";
-                if(s.contains("/")){
-                    url= "http://numbersapi.com/"+s+"/date";
-                }else{
-                    url= "http://numbersapi.com/"+s;
-                }
 
-              getResult(url);
+                    if(InternetConnectivityCheck.isConnectedToInternet(MainActivity.this)){
+                        String url="";
+                        if(s.contains("/")){
+                            url= number_BASE_URL+s+"/date";
+                        }else{
+                            url= number_BASE_URL+s;
+                        }
+
+                        getResultFromAPI_number(url);
+                    }else{
+                        showNumberFact("No Interner Connection");
+                    }
+
+
+
                 return false;
             }
 
@@ -124,7 +138,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
         return super.onCreateOptionsMenu(menu);
     }
-    void getResult(String s){
+
+    void getResultFromAPI_number(String s){
         okHttpClient= new OkHttpClient();
         request=new Request.Builder()
                 .url(s)
@@ -144,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         @Override
                         public void run() {
                             // txtNUm.setText(res);
-                            showData(res);
+                            showNumberFact(res);
                         }
                     });
                 }
@@ -152,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
-    void showData(String result){
+    void showNumberFact(String result){
         Bundle bundle = new Bundle();
         bundle.putString("NUMBER_KEY", result);
 
@@ -160,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragmrnt_container,myFragment).commit();
     }
+
 
 
     @Override

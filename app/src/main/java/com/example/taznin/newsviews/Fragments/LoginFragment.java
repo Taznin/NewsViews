@@ -1,4 +1,4 @@
-package com.example.taznin.newsviews;
+package com.example.taznin.newsviews.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.taznin.newsviews.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;

@@ -1,4 +1,4 @@
-package com.example.taznin.newsviews;
+package com.example.taznin.newsviews.Adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.taznin.newsviews.R;
 
 public class slideAdapter extends PagerAdapter {
     Context context;

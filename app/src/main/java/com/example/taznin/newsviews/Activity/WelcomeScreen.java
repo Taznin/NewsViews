@@ -1,39 +1,40 @@
-package com.example.taznin.newsviews;
+package com.example.taznin.newsviews.Activity;
 
 import android.content.Intent;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.taznin.newsviews.Manager.PreferenceManager;
+import com.example.taznin.newsviews.Adapter.slideAdapter;
+import com.example.taznin.newsviews.R;
 
 public class WelcomeScreen extends AppCompatActivity {
 
     private ViewPager viewPager;
     private LinearLayout dotLayout;
-    private slideAdapter slideAdapter;
+    private com.example.taznin.newsviews.Adapter.slideAdapter slideAdapter;
     private TextView[] mDots;
     private Button btnNext,btnPrev;
     int cPage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome_screen);
+        setContentView(R.layout.intro_splash_screen_layout);
         if(new PreferenceManager(this).checkPref()){
 
             loadHome();
         }
 
 
-        setContentView(R.layout.activity_welcome_screen);
+        //setContentView(R.layout.activity_welcome_screen);
         viewPager=(ViewPager) findViewById(R.id.layout_slideView);
         dotLayout =(LinearLayout) findViewById(R.id.layout_dots);
 

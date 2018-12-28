@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:id="@+id/myDrawer"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Activity.MainActivity">
 
     <FrameLayout
         android:id="@+id/fragmrnt_container"

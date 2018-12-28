@@ -1,7 +1,9 @@
-package com.example.taznin.newsviews;
+package com.example.taznin.newsviews.Manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.example.taznin.newsviews.R;
 
 public class PreferenceManager {
     Context context;

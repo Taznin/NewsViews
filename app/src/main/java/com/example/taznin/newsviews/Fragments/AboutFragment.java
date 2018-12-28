@@ -1,4 +1,4 @@
-package com.example.taznin.newsviews;
+package com.example.taznin.newsviews.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.taznin.newsviews.R;
 
 public class AboutFragment extends Fragment {
     @Nullable

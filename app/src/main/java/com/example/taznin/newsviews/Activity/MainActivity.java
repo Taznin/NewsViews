@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.taznin.newsviews.Constant;
 import com.example.taznin.newsviews.Fragments.AboutFragment;
 import com.example.taznin.newsviews.Fragments.HomeFragment;
 import com.example.taznin.newsviews.Fragments.LoginFragment;
@@ -116,9 +117,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     if(InternetConnectivityCheck.isConnectedToInternet(MainActivity.this)){
                         String url="";
                         if(s.contains("/")){
-                            url= number_BASE_URL+s+"/date";
+                            url= Constant.BASE_URL_Number+s+"/date";
                         }else{
-                            url= number_BASE_URL+s;
+                            url= Constant.BASE_URL_Number+s;
                         }
 
                         getResultFromAPI_number(url);

@@ -158,9 +158,9 @@ public class HomeFragment extends Fragment {
 
 
     }
-    private void sourceGenerate(List<Source> articleList) {
+    private void sourceGenerate(List<Source> sourceList) {
 
-        adapterSource = new SourceAdapter(getActivity(),articleList);
+        adapterSource = new SourceAdapter(getActivity(),sourceList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewSource.setLayoutManager(layoutManager);
         recyclerViewSource.setAdapter(adapterSource);

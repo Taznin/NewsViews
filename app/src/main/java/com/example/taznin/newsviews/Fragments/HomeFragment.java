@@ -5,16 +5,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.taznin.newsviews.Adapter.HeadLineAdapter;
 import com.example.taznin.newsviews.Adapter.SourceAdapter;
+import com.example.taznin.newsviews.Constant;
 import com.example.taznin.newsviews.Interfaces.HeadLineService;
 import com.example.taznin.newsviews.Interfaces.SourceService;
 import com.example.taznin.newsviews.Manager.ApiClient;
@@ -23,10 +24,12 @@ import com.example.taznin.newsviews.Model.News;
 import com.example.taznin.newsviews.Model.NewsPaper;
 import com.example.taznin.newsviews.Model.Source;
 import com.example.taznin.newsviews.R;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.paperdb.Paper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,6 +44,9 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView recyclerViewSource;
     ProgressDialog progressDoalog;
+    private SwipeRefreshLayout swipeRefreshLayoutOne;
+    private SwipeRefreshLayout swipeRefreshLayoutTwo;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,17 +55,37 @@ public class HomeFragment extends Fragment {
         progressDoalog = new ProgressDialog(getActivity());
         progressDoalog.setMessage("Loading....");
         progressDoalog.show();
+        swipeRefreshLayoutOne=(SwipeRefreshLayout)view.findViewById(R.id.swipeOne) ;
+        swipeRefreshLayoutTwo=(SwipeRefreshLayout)view.findViewById(R.id.swipeTwo) ;
+        //swipeRefreshLayoutOne.setOnRefreshListener(getActivity());
+        swipeRefreshLayoutOne.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                headLineLoad();
+            }
+        });
+        swipeRefreshLayoutTwo.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                sourceLoad();
+            }
+        });
+
+
 
         recyclerView =view.findViewById(R.id.listView1);
         recyclerViewSource =view.findViewById(R.id.listView2);
         /*Create handle for the RetrofitInstance interface*/
         headLineLoad();
- sourceLoad();
+
+        sourceLoad();
         return view;
     }
     void headLineLoad(){
+        swipeRefreshLayoutOne.setRefreshing(true);
         HeadLineService service = ApiClient.getRetrofitInstance().create(HeadLineService.class);
-        Call<News> call = service.getAllArticales(country,apike);
+        Call<News> call = service.getAllArticales(Constant.NEWS_API_COUNTRY, Constant.NEWS_API_KEY);
+
 
         call.enqueue(new Callback<News>() {
             @Override
@@ -71,7 +97,9 @@ public class HomeFragment extends Fragment {
                     }
                     articles=response.body().getArticles();
                     headlineGenerate(articles);
+                    swipeRefreshLayoutOne.setRefreshing(false);
                 }else{
+                    swipeRefreshLayoutOne.setRefreshing(false);
                     Toast.makeText(getActivity(), "no response", Toast.LENGTH_SHORT).show();
                 }
 
@@ -80,13 +108,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onFailure(Call<News> call, Throwable t) {
                 progressDoalog.dismiss();
+
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
     void sourceLoad(){
+        swipeRefreshLayoutTwo.setRefreshing(true);
         SourceService service = ApiClient.getRetrofitInstance().create(SourceService.class);
-        Call<NewsPaper> call = service.getSources(apike);
+        Call<NewsPaper> call = service.getSources(Constant.NEWS_API_KEY);
 
         call.enqueue(new Callback<NewsPaper>() {
             @Override
@@ -98,7 +128,9 @@ public class HomeFragment extends Fragment {
                     }
                     sources=response.body().getSources();
                     sourceGenerate(sources);
+                    swipeRefreshLayoutTwo.setRefreshing(false);
                 }else{
+                    swipeRefreshLayoutTwo.setRefreshing(false);
                     Toast.makeText(getActivity(), "no response", Toast.LENGTH_SHORT).show();
                 }
 
@@ -118,6 +150,8 @@ public class HomeFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+
+
     }
     private void sourceGenerate(List<Source> articleList) {
 
@@ -126,4 +160,6 @@ public class HomeFragment extends Fragment {
         recyclerViewSource.setLayoutManager(layoutManager);
         recyclerViewSource.setAdapter(adapterSource);
     }
+
+
 }

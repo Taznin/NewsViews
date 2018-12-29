@@ -9,25 +9,29 @@
         android:layout_height="match_parent"
         card_view:cardBackgroundColor="@color/active_dot"
         card_view:cardCornerRadius="10dp"
-        card_view:cardElevation="5dp"
+        card_view:cardElevation="3dp"
         android:orientation="vertical"
         card_view:cardUseCompatPadding="true">
     <LinearLayout
         android:id="@+id/listTwolayout"
         android:orientation="vertical"
-        android:paddingTop="5dp"
+        android:paddingTop="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
+            android:layout_marginLeft="5dp"
             android:id="@+id/txt_sourceName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
             android:padding="3dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
             android:text="Name"
             android:textSize="20dp" />
         <TextView
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="2dp"
             android:id="@+id/txt_sourceCat"
             android:text="Category"
             android:padding="3dp"

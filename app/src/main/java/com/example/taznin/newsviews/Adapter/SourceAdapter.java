@@ -1,12 +1,15 @@
 package com.example.taznin.newsviews.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.taznin.newsviews.Activity.WebActivity;
 import com.example.taznin.newsviews.Model.Source;
 import com.example.taznin.newsviews.R;
 
@@ -29,6 +32,7 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.SourceView
 
         TextView txtTitle;
         TextView txtCountry;
+        LinearLayout layout;
 
         SourceViewHolder(View itemView) {
             super(itemView);
@@ -36,6 +40,7 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.SourceView
 
             txtTitle = mView.findViewById(R.id.txt_sourceName);
             txtCountry = mView.findViewById(R.id.txt_sourceCat);
+            layout=mView.findViewById(R.id.listTwolayout);
 
         }
     }
@@ -49,9 +54,17 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.SourceView
 
     @Override
     public void onBindViewHolder(SourceViewHolder holder, int position) {
+        final String newsUrl=dataList.get(position).getUrl();
         holder.txtTitle.setText(dataList.get(position).getName());
-        holder.txtCountry.setText(dataList.get(position).getCategory());
-
+        holder.txtCountry.setText("Category: "+ dataList.get(position).getCategory());
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(context, WebActivity.class);
+                intent.putExtra("newsurl",newsUrl);
+                context.startActivity(intent);
+            }
+        });
 
     }
 

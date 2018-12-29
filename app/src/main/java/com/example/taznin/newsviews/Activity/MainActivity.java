@@ -20,6 +20,7 @@ import com.example.taznin.newsviews.Fragments.AboutFragment;
 import com.example.taznin.newsviews.Fragments.HomeFragment;
 import com.example.taznin.newsviews.Fragments.LoginFragment;
 import com.example.taznin.newsviews.Fragments.NumberFragment;
+import com.example.taznin.newsviews.Fragments.WelcomeFragment;
 import com.example.taznin.newsviews.Manager.InternetConnectivityCheck;
 import com.example.taznin.newsviews.R;
 
@@ -54,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawer.addDrawerListener(mToogle);
         mToogle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(savedInstanceState==null){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmrnt_container,new WelcomeFragment()).commit();
+        }
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -109,7 +113,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuItem item= menu.findItem(R.id.searchOption);
         android.support.v7.widget.SearchView searchView= (android.support.v7.widget.SearchView) item.getActionView();
         searchView.setQueryHint("Number or dd/mm");
-        searchView.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_DATETIME_VARIATION_DATE);
         searchView.setOnQueryTextListener(new android.support.v7.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -181,7 +184,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        exitApp();
+        if(getSupportFragmentManager().getBackStackEntryCount()==0){
+            exitApp();
+        }else{
+            getSupportFragmentManager().popBackStack();
+        }
+
     }
 
 }

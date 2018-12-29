@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.taznin.newsviews.Manager.InternetConnectivityCheck;
 import com.example.taznin.newsviews.R;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -65,25 +66,29 @@ public class LoginFragment extends Fragment {
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
 
+        if(InternetConnectivityCheck.isConnectedToInternet(getActivity())){
+            signIn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    signIn();
+                }
+            });
 
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signIn();
-            }
-        });
+            signOut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mAuth.signOut(); //get signed out
+                    signOut.setVisibility(View.GONE);
+                    signIn.setVisibility(View.VISIBLE);
 
-        signOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut(); //get signed out
-                signOut.setVisibility(View.GONE);
-                signIn.setVisibility(View.VISIBLE);
+                    username.setVisibility(View.GONE);
+                    useremail.setVisibility(View.GONE);
+                }
+            });
+        }else {
+            Toast.makeText(getActivity(),"No internet connection",Toast.LENGTH_SHORT).show();
+        }
 
-                username.setVisibility(View.GONE);
-                useremail.setVisibility(View.GONE);
-            }
-        });
         return view;
     }
 

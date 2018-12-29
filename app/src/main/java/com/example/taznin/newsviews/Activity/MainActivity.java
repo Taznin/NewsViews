@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         getResultFromAPI_number(url);
                     }else{
-                        showNumberFact("No Interner Connection");
+                        Toast.makeText(MainActivity.this,"No Internet Connection",Toast.LENGTH_SHORT).show();
                     }
 
 

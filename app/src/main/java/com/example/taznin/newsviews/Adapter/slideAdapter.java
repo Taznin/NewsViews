@@ -20,8 +20,9 @@ public class slideAdapter extends PagerAdapter {
     }
 
 
+    String self="Hi" +"\n"+"Im Taznin Jahan";
     public  String[] slideHeading={
-            "Im Taznin Jahan", "NewsViews","Welcome"
+            self, "NewsViews","Welcome"
     };
     @Override
     public int getCount() {

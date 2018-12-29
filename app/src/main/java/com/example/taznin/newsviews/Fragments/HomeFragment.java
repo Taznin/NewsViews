@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.taznin.newsviews.Adapter.HeadLineAdapter;
@@ -19,6 +20,7 @@ import com.example.taznin.newsviews.Constant;
 import com.example.taznin.newsviews.Interfaces.HeadLineService;
 import com.example.taznin.newsviews.Interfaces.SourceService;
 import com.example.taznin.newsviews.Manager.ApiClient;
+import com.example.taznin.newsviews.Manager.InternetConnectivityCheck;
 import com.example.taznin.newsviews.Model.Article;
 import com.example.taznin.newsviews.Model.News;
 import com.example.taznin.newsviews.Model.NewsPaper;
@@ -47,6 +49,7 @@ public class HomeFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayoutOne;
     private SwipeRefreshLayout swipeRefreshLayoutTwo;
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,27 +61,29 @@ public class HomeFragment extends Fragment {
         swipeRefreshLayoutOne=(SwipeRefreshLayout)view.findViewById(R.id.swipeOne) ;
         swipeRefreshLayoutTwo=(SwipeRefreshLayout)view.findViewById(R.id.swipeTwo) ;
         //swipeRefreshLayoutOne.setOnRefreshListener(getActivity());
-        swipeRefreshLayoutOne.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                headLineLoad();
-            }
-        });
-        swipeRefreshLayoutTwo.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                sourceLoad();
-            }
-        });
-
-
-
         recyclerView =view.findViewById(R.id.listView1);
         recyclerViewSource =view.findViewById(R.id.listView2);
-        /*Create handle for the RetrofitInstance interface*/
-        headLineLoad();
+        if(InternetConnectivityCheck.isConnectedToInternet(getActivity())){
+            swipeRefreshLayoutOne.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    headLineLoad();
+                }
+            });
+            swipeRefreshLayoutTwo.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    sourceLoad();
+                }
+            });
 
-        sourceLoad();
+            headLineLoad();
+            sourceLoad();
+        }else {
+            progressDoalog.dismiss();
+            Toast.makeText(getActivity(),"No internet connection",Toast.LENGTH_SHORT).show();
+        }
+
         return view;
     }
     void headLineLoad(){
